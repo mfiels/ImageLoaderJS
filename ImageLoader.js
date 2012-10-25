@@ -82,7 +82,15 @@
 		}
 	};
 
-	// Expose the ImageLoader namespace to global scope
-	global.ImageLoader = ImageLoader;
+	// Check for AMD
+	if (typeof global.define === 'function' && global.define.amd) {
+		// Expose as a module with the name ImageLoader
+		global.define('ImageLoader', [], function() {
+			return ImageLoader;
+		});
+	} else {
+		// Expose the ImageLoader namespace to global scope
+		global.ImageLoader = ImageLoader;
+	}
 
-})(window);
+})(this);
