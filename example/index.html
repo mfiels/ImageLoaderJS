@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Image Loader Example</title>
+		<script src="../ImageLoader.js"></script>
+		<script>
+			var images;		// Here is where the loaded images will go
+			var canvas;		// Access to the canvas
+			var context;	// Access to rendering context
+
+			/**
+			 * Called when the DOM is ready.
+			 */
+			function ready() {
+				// Make an array of images to be loaded
+				var toLoad = ['image0.png', 'image1.png', 'image2.png'];
+
+				// Specify that the root directory for images is the images directory
+				//		Note this is not required to be set, if you don't want to
+				//		specify a root directory in this example toLoad could be
+				//		['images/image0.png', 'images/image1.png', 'images/image2.png']
+				//		and the following line can be omitted
+				ImageLoader.root = 'images';
+
+				// Load the images
+				ImageLoader.load(toLoad, function(loaded) {
+					// The images are now loaded and ready to be used
+					
+					// Set the loaded images to the global images variable
+					images = loaded;
+					// Draw on the canvas
+					drawCanvas();
+				});
+			}
+
+			/**
+			 * Draw the images in the global images variable on the canvas.
+			 */
+			function drawCanvas() {
+				// Grab a reference to the canvas and context
+				canvas = document.getElementById('canvas');
+				context = canvas.getContext('2d');
+
+				// The x position to draw at
+				var drawAtX = 0;
+
+				// Loop through all loaded images
+				for (var k in images) {
+					// Draw the image
+					context.drawImage(images[k], drawAtX, 0);
+					// Move the x position to the right in order to draw the
+					//		next image to the right of the previous image
+					drawAtX += images[k].width;
+				}
+			}
+		</script>
+	</head>
+	<body onload="ready();">
+		<canvas id="canvas" width="300" height="300"></canvas>
+	</body>
+</html>
